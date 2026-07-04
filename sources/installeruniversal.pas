@@ -226,6 +226,7 @@ uses
   FileUtil, //LazFileUtils,
   {$ifndef FPCONLY}
   LCLPlatformDef,
+  LazVersion,
   InterfaceBase,
   {$endif}
   fpcuputil;
@@ -341,7 +342,7 @@ begin
     //Processor.SetParamNamePathData('INSTALL_BINDIR',FBinPath);
     {$ENDIF MSWINDOWS}
 
-    if (LCL_Platform <> BuildLCLWidgetType) then Processor.SetParamData('LCL_PLATFORM=' + GetLCLName(LCL_Platform));
+    if (LCL_Platform <> GetBuildLCLWidgetType) then Processor.SetParamData('LCL_PLATFORM=' + GetLCLName(LCL_Platform));
 
     //if Length(localoptions)>0 then Processor.SetParamNameData('OPT',MaybeQuotedSpacesOnly(localoptions));
     if Length(localoptions)>0 then Processor.SetParamNameData('OPT',localoptions);
@@ -415,7 +416,7 @@ begin
     Processor.SetParamNameData('--cpu',GetSourceCPU);
     Processor.SetParamNameData('--os',GetSourceOS);
 
-    if LCL_Platform <> BuildLCLWidgetType then
+    if LCL_Platform <> GetBuildLCLWidgetType then
       Processor.SetParamNameData('--ws',GetLCLName(LCL_Platform));
 
     if LinuxLegacy then Processor.SetParamNameData('--compiler',ExtractFilePath(FCompiler)+'fpccompat.sh');
@@ -464,7 +465,7 @@ begin
         LazarusConfig.SetVariable(MiscellaneousConfig, 'MiscellaneousOptions/BuildLazarusOptions/Profiles/Profile0/Options/Count', 1);
         LazarusConfig.SetVariable(MiscellaneousConfig, 'MiscellaneousOptions/BuildLazarusOptions/Profiles/Profile0/Options/Item1/Value', Trim(FLazarusCompilerOptions));
       end;
-      if (LCL_Platform <> BuildLCLWidgetType) then
+      if (LCL_Platform <> GetBuildLCLWidgetType) then
       begin
         // Change the build modes to reflect the default LCL widget set.
         for j:=0 to (i-1) do
@@ -841,7 +842,7 @@ begin
   Processor.SetParamData('--pcp=' + DoubleQuoteIfNeeded(FLazarusPrimaryConfigPath));
   Processor.SetParamData('--cpu=' + GetSourceCPU);
   Processor.SetParamData('--os=' + GetSourceOS);
-  if LCL_Platform <> BuildLCLWidgetType then
+  if LCL_Platform <> GetBuildLCLWidgetType then
             Processor.SetParamData('--ws=' + GetLCLName(LCL_Platform));
 
   if RegisterPackageFeature then
@@ -1339,7 +1340,7 @@ begin
       //s:='--quiet';
       {$ENDIF}
 
-      if LCL_Platform<>BuildLCLWidgetType then s:=s+' --ws=' + GetLCLName(LCL_Platform);
+      if LCL_Platform<>GetBuildLCLWidgetType then s:=s+' --ws=' + GetLCLName(LCL_Platform);
       exec:=StringReplace(exec,LAZBUILDNAME+GetExeExt,LAZBUILDNAME+GetExeExt+' '+s,[rfIgnoreCase]);
     end;
     {$endif}

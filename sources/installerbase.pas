@@ -182,6 +182,9 @@ var
 implementation
 
 uses
+  {$ifndef FPCONLY}
+  LazVersion,
+  {$endif}
   StrUtils,
   processutils,// for ThreadLog
   fpcuputil;
@@ -489,7 +492,7 @@ function GetLCLType(LCLName:string):LCL_TYPE;
 var
   LCLType:LCL_TYPE;
 begin
-  result:=BuildLCLWidgetType;
+  result:=GetBuildLCLWidgetType;
   for LCLType in TLCLPlatforms do
   begin
     if (LCLName=GetLCLName(LCLType)) then

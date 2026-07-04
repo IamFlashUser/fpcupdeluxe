@@ -336,9 +336,8 @@ const FPCEXTRALIBS : array [0..30] of string = (
   'libmysqlclient.so*'
 );
 
-const LAZLIBS : array [0..34] of string = (
+const LAZLIBS : array [0..33] of string = (
   'libgdk-1.2.so*',
-  'libgdk-3.so*',
   'libglib-1.2.so*',
   'libgmodule-1.2.so*',
   'libgtk-1.2.so*',
@@ -363,7 +362,7 @@ const LAZLIBS : array [0..34] of string = (
   'libpangocairo-1.0.so*',
   'libatk-1.0.so*',
   'libiconv.so*',
-  'libicui18nso',
+  'libicui18n.so*',
   'libgtk-3.so*',
   'libgdk-3.so*',
   'libharfbuzz.so*',
@@ -383,6 +382,7 @@ const LAZLINKLIBS : array [0..20] of string = (
   'libgdk_pixbuf-2.0.so',
   'libiconv.so',
   'libcairo.so',
+  'libcairo-gobject.so',
   'libpango-1.0.so',
   'libpangocairo-1.0.so',
   'libatk-1.0.so',
@@ -392,10 +392,9 @@ const LAZLINKLIBS : array [0..20] of string = (
   'libgdk_pixbuf.so',
   'libgtk-3.so',
   'libgdk-3.so',
+  'libharfbuzz.so',
   'libharfbuzz-gobject.so',
-  'libcairo-gobject.so',
-  'libgio-2.0.so',
-  'libharfbuzz.so'
+  'libgio-2.0.so'
 );
 
 const QTLIBS : array [0..14] of string = (

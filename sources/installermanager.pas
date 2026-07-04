@@ -472,6 +472,7 @@ implementation
 uses
   {$IFNDEF FPCONLY}
   LCLPlatformDef,
+  LazVersion,
   {$IF DEFINED(FPC_FULLVERSION) AND (FPC_FULLVERSION > 30000)}
   InterfaceBase,
   {$ENDIF}
@@ -1127,7 +1128,7 @@ begin
   FPCOPT:='';
 
   {$ifndef FPCONLY}
-  LCL_Platform:=BuildLCLWidgetType;
+  LCL_Platform:=GetBuildLCLWidgetType;
   LazarusOPT:='';
   LazarusDesiredRevision:='';
   LazarusBranch:='';
@@ -1819,7 +1820,7 @@ begin
       end;
 
       if (CrossCPU_Target=TCPU.arm) then s:='Linux_ARMHF_Ubuntu_1804.zip';
-      if (CrossCPU_Target=TCPU.x86_64) then toolversion:='1804';
+      if (CrossCPU_Target=TCPU.x86_64) then toolversion:='2204';
       if (CrossCPU_Target=TCPU.i386) then toolversion:='1804';
       if (CrossCPU_Target=TCPU.loongarch64) then
       begin
@@ -2261,7 +2262,7 @@ function TSequencer.DoExec(FunctionName: string): boolean;
   const
     DEBIAN_INSTALL_COMMAND='sudo apt-get install';
 
-    DEBIAN_LIBS : array [0..18] of string = (
+    DEBIAN_LIBS : array [0..17] of string = (
     'unrar',
     'unzip',
     'p7zip',

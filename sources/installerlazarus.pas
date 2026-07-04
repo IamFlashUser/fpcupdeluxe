@@ -276,6 +276,7 @@ implementation
 
 uses
   m_crossinstaller,
+  LazVersion,
   LCLPlatformDef,
   StrUtils,
   FileUtil,
@@ -430,7 +431,7 @@ begin
         //if Length(Options)>0 then Processor.SetParamNameData('OPT',MaybeQuotedSpacesOnly(Options));
         if Length(Options)>0 then Processor.SetParamNameData('OPT',Options);
 
-        if (LCL_Platform <> BuildLCLWidgetType) then
+        if (LCL_Platform <> GetBuildLCLWidgetType) then
         GetLCLName(LCL_Platform);
 
           Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(LCL_Platform));
@@ -472,7 +473,7 @@ begin
         if (GetSourceOS<>CrossInstaller.TargetOSName) then
           Processor.SetParamData('--os=' + CrossInstaller.TargetOSName);
 
-        if (LCL_Platform <> BuildLCLWidgetType)  then
+        if (LCL_Platform <> GetBuildLCLWidgetType)  then
           Processor.SetParamData('--ws=' + GetLCLName(LCL_Platform));
 
         // Also add the default components !
@@ -755,7 +756,7 @@ begin
     //Todo: to be investigated
     //Processor.SetParamNamePathData('FPCFPMAKE',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
 
-    if (LCL_Platform <> BuildLCLWidgetType) then
+    if (LCL_Platform <> GetBuildLCLWidgetType) then
       Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(LCL_Platform));
 
     //Processor.SetParamNameData('OPT',MaybeQuotedSpacesOnly(localoptions));
@@ -913,7 +914,7 @@ begin
         Result := false;
         exit;
       end;
-      if (LCL_Platform<>BuildLCLWidgetType) then Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(LCL_Platform));
+      if (LCL_Platform<>GetBuildLCLWidgetType) then Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(LCL_Platform));
     end;
 
     try
@@ -1007,7 +1008,7 @@ begin
       Processor.SetParamNameData('--cpu',GetSourceCPU);
       Processor.SetParamNameData('--os',GetSourceOS);
 
-      if (LCL_Platform <> BuildLCLWidgetType) then
+      if (LCL_Platform <> GetBuildLCLWidgetType) then
         Processor.SetParamNameData('--ws',GetLCLName(LCL_Platform));
 
       // Support keeping userdefined installed packages when building.
@@ -2146,7 +2147,7 @@ begin
       _LCL:
       begin
         CleanDirectory:='lcl';
-        if (CrossCompiling) AND (LCL_Platform <> BuildLCLWidgetType) then
+        if (CrossCompiling) AND (LCL_Platform <> GetBuildLCLWidgetType) then
         begin
           Processor.SetParamData('LCL_PLATFORM=' + GetLCLName(LCL_Platform));
           CleanCommand:='cleanintf';
@@ -2159,7 +2160,7 @@ begin
       _COMPONENTS:
       begin
         CleanDirectory:='components';
-        if (IsCross) AND (LCL_Platform <> BuildLCLWidgetType) then
+        if (IsCross) AND (LCL_Platform <> GetBuildLCLWidgetType) then
         begin
           Processor.SetParamData('LCL_PLATFORM=' + GetLCLName(LCL_Platform));
         end;
@@ -2168,7 +2169,7 @@ begin
       _PACKAGER:
       begin
         CleanDirectory:='packager';
-        if (IsCross) AND (LCL_Platform <> BuildLCLWidgetType) then
+        if (IsCross) AND (LCL_Platform <> GetBuildLCLWidgetType) then
         begin
           Processor.SetParamData('LCL_PLATFORM=' + GetLCLName(LCL_Platform));
         end;
@@ -2879,7 +2880,7 @@ var
   NothingToBeDone:boolean;
 begin
   NothingToBeDone:=true;
-  if (LCL_Platform<>BuildLCLWidgetType) then
+  if (LCL_Platform<>GetBuildLCLWidgetType) then
   begin
     NothingToBeDone:=false;
     {$ifdef Darwin}
