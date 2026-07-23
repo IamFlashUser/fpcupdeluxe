@@ -417,7 +417,6 @@ type
     procedure SetBaseDirectory(value:string);
     procedure SetInstallDirectory(value:string);
     procedure SetFPCSourceDirectory(value:string);
-    procedure SetLazarusInstallDirectory(value:string);
     procedure SetLazarusSourceDirectory(value:string);
     procedure SetLazarusPrimaryConfigDirectory(value:string);
     procedure SetMakeDirectory(value:string);
@@ -505,6 +504,7 @@ type
     FMUSLLinker: string;
     property Make: string read GetMake;
     procedure SetFPCInstallDirectory(value:string);virtual;
+    procedure SetLazarusInstallDirectory(value:string);virtual;
     // Check for existence of required executables; if not there, get them if possible
     function CheckAndGetTools: boolean;
     // Check for existence of required binutils; if not there, get them if possible
@@ -716,11 +716,45 @@ type
     destructor Destroy; override;
   end;
 
-  TBaseFPCInstaller        = class(TInstaller);
+  TBaseFPCInstaller        = class(TInstaller)
+  strict private
+    FMakeBaseDir      : string;
+    FMakeLibDir       : string;
+    FMakeShareDir     : string;
+    FMakeDataDir      : string;
+    FMakeDocDir       : string;
+    FMakeExampleDir   : string;
+    {$ifdef UNIX}
+    FMakeMessageDir   : string;
+    {$endif}
+  protected
+    procedure SetFPCInstallDirectory(value:string);override;
+    property MakeBaseDir:string read FMakeBaseDir;
+    property MakeLibDir:string read FMakeLibDir;
+    property MakeShareDir:string read FMakeShareDir;
+    property MakeDataDir:string read FMakeDataDir;
+    property MakeDocDir:string read FMakeDocDir;
+    property MakeExampleDir:string read FMakeExampleDir;
+    {$ifdef UNIX}
+    property MakeMessageDir:string read FMakeMessageDir;
+    {$endif}
+  end;
+
   {$ifndef FPCONLY}
   TBaseLCLInstaller    = class(TInstaller)
+  strict private
+    FMakeBaseDir      : string;
+    FMakeUnitDir      : string;
+    FMakeBinDir       : string;
+    FMakeLibDir       : string;
+    FMakeShareDir     : string;
+    FMakeDataDir      : string;
+    FMakeDocDir       : string;
+    FMakeExampleDir   : string;
   private
     FLCL_Platform: LCL_TYPE;
+  protected
+    procedure SetLazarusInstallDirectory(value:string);override;
   public
     // LCL widget set to be built (NOT OS/CPU combination)
     property LCL_Platform: LCL_TYPE read FLCL_Platform write FLCL_Platform;
@@ -913,18 +947,19 @@ begin
     SetInstallDirectory(FFPCInstallDir);
 end;
 
+procedure TInstaller.SetLazarusInstallDirectory(value:string);
+begin
+  FLazarusInstallDir:=ExcludeTrailingPathDelimiter(value);
+  if (IsLazarusInstaller) then
+    SetInstallDirectory(FLazarusInstallDir);
+end;
+
+
 procedure TInstaller.SetFPCSourceDirectory(value:string);
 begin
   FFPCSourceDir:=ExcludeTrailingPathDelimiter(value);
   if (IsFPCInstaller) then
     SetSourceDirectory(FFPCSourceDir);
-end;
-
-procedure TInstaller.SetLazarusInstallDirectory(value:string);
-begin
-  FLazarusInstallDir:=ExcludeTrailingPathDelimiter(value);
-  if ((IsLazarusInstaller) OR (IsHelpInstaller)) then
-    SetInstallDirectory(FLazarusInstallDir);
 end;
 
 procedure TInstaller.SetLazarusSourceDirectory(value:string);
@@ -4468,6 +4503,49 @@ begin
   FSVNClient.Free;
   FCrossInstaller:=nil;
   inherited Destroy;
+end;
+
+procedure TBaseLCLInstaller.SetLazarusInstallDirectory(value:string);
+begin
+  inherited;
+
+  // Extra settings, mostly for the Lazarus makefile
+  FMakeBaseDir:=FLazarusInstallDir;
+  FMakeUnitDir:=ConcatPaths([FLazarusInstallDir,'units']);
+  FMakeLibDir:=ConcatPaths([FLazarusInstallDir,'lib']);
+  FMakeShareDir:=ConcatPaths([FLazarusInstallDir,'share']);
+  FMakeDataDir:=ConcatPaths([FLazarusInstallDir,'data']);
+  {$ifdef Windows}
+  FMakeBinDir:=ConcatPaths([FLazarusInstallDir,'bin']);
+  FMakeDocDir:='';
+  FMakeExampleDir:='';
+  {$else}
+  FMakeBinDir:=ConcatPaths([FLazarusInstallDir,'bin',GetFPCTarget(true)]);
+  FMakeDocDir:=ConcatPaths([FLazarusInstallDir,'doc']);
+  FMakeExampleDir:=ConcatPaths([FLazarusInstallDir,'examples']);
+  {$endif}
+end;
+
+procedure TBaseFPCInstaller.SetFPCInstallDirectory(value:string);
+begin
+  inherited;
+
+  // Extra settings, mostly for the FPC makefile
+  FMakeLibDir:=ConcatPaths([FFPCInstallDir,'lib']);
+  FMakeShareDir:=ConcatPaths([FFPCInstallDir,'share']);
+  FMakeDataDir:=ConcatPaths([FFPCInstallDir,'data']);
+  {$ifdef Windows}
+  FMakeBaseDir:=FFPCInstallDir;
+  FMakeDocDir:='';
+  FMakeExampleDir:='';
+  {$else}
+  FMakeBaseDir:=FPCBinDir;
+  FMakeDocDir:=ConcatPaths([FFPCInstallDir,'doc']);
+  FMakeExampleDir:=ConcatPaths([FFPCInstallDir,'examples']);
+  {$endif}
+  {$ifdef UNIX}
+  FMakeMessageDir:=ConcatPaths([FMakeBaseDir,'msg']);
+  {$endif}
 end;
 
 end.

@@ -371,8 +371,9 @@ begin
 
         Processor.SetParamData('USESVN2REVISIONINC=0');
 
-        Processor.SetParamNamePathData('FPC',FCompiler);
-        Processor.SetParamNamePathData('PP',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
+        //Processor.SetParamNamePathData('FPC',FCompiler);
+        Processor.SetParamNamePathData('PP',FCompiler);
+        //Processor.SetParamNamePathData('PP',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
 
         Processor.SetParamNamePathData('PREFIX',InstallDirectory);
         Processor.SetParamNamePathData('INSTALL_PREFIX',InstallDirectory);
@@ -721,13 +722,31 @@ begin
 
     Processor.SetParamData('USESVN2REVISIONINC=0');
 
-    Processor.SetParamNamePathData('FPC',FCompiler);
-    Processor.SetParamNamePathData('PP',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
+    //Processor.SetParamNamePathData('FPC',FCompiler);
+    Processor.SetParamNamePathData('PP',FCompiler);
+    //Processor.SetParamNamePathData('PP',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
 
     Processor.SetParamNamePathData('PREFIX',InstallDirectory);
     Processor.SetParamNamePathData('INSTALL_PREFIX',InstallDirectory);
-    Processor.SetParamNamePathData('INSTALL_BASEDIR',InstallDirectory);
     Processor.SetParamNamePathData('LAZARUS_INSTALL_DIR',IncludeTrailingPathDelimiter(InstallDirectory));
+
+    Processor.SetParamNamePathData('INSTALL_BASEDIR',InstallDirectory);
+
+    Processor.SetParamNamePathData('INSTALL_BINDIR',ConcatPaths([InstallDirectory,'bin']));
+    Processor.SetParamNamePathData('INSTALL_LIBDIR',ConcatPaths([InstallDirectory,'lib']));
+
+    Processor.SetParamNamePathData('INSTALL_UNITDIR',ConcatPaths([InstallDirectory,'units',GetFPCTarget(true)]));
+    //Processor.SetParamNamePathData('INSTALL_UNITDIR',ConcatPaths([InstallDirectory,'units']));
+
+    Processor.SetParamNamePathData('INSTALL_SOURCEDIR',SourceDirectory);
+
+    {$ifndef Windows}
+    Processor.SetParamNamePathData('INSTALL_DOCDIR',ConcatPaths([InstallDirectory,'doc']));
+    Processor.SetParamNamePathData('INSTALL_EXAMPLEDIR',ConcatPaths([InstallDirectory,'examples']));
+    {$endif}
+
+    //Processor.SetParamNamePathData('INSTALL_DATADIR',InstallDirectory);
+    Processor.SetParamNamePathData('INSTALL_DATADIR',ConcatPaths([InstallDirectory,'data']));
 
     //Make sure our FPC units can be found by Lazarus
     Processor.SetParamNamePathData('FPCDIR',FFPCSourceDir);
@@ -2098,8 +2117,9 @@ begin
     //  Processor.SetParamData('--jobs='+IntToStr(FCPUCount));
     {$ENDIF}
 
-    Processor.SetParamNamePathData('FPC',FCompiler);
-    Processor.SetParamNamePathData('PP',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
+    //Processor.SetParamNamePathData('FPC',FCompiler);
+    Processor.SetParamNamePathData('PP',FCompiler);
+    //Processor.SetParamNamePathData('PP',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
 
     Processor.SetParamNamePathData('PREFIX',InstallDirectory);
     Processor.SetParamNamePathData('INSTALL_PREFIX',InstallDirectory);

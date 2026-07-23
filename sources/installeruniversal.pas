@@ -187,8 +187,6 @@ type
     function BuildModule(ModuleName: string): boolean; override;
   end;
 
-
-
   // Gets the list of modules enabled in ConfigFile. Appends to existing TStringList
   function GetModuleEnabledList(var ModuleList:TStringList):boolean;
   // Gets the sequence representation for all modules in the ini file
@@ -316,8 +314,9 @@ begin
 
     Processor.SetParamData('USESVN2REVISIONINC=0');
 
-    Processor.SetParamNamePathData('FPC',FCompiler);
-    Processor.SetParamNamePathData('PP',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
+    //Processor.SetParamNamePathData('FPC',FCompiler);
+    Processor.SetParamNamePathData('PP',FCompiler);
+    //Processor.SetParamNamePathData('PP',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
 
     Processor.SetParamNamePathData('PREFIX',FLazarusInstallDir);
     Processor.SetParamNamePathData('INSTALL_PREFIX',FLazarusInstallDir);

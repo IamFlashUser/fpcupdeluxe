@@ -117,15 +117,6 @@ type
   { TFPCInstaller }
 
   TFPCInstaller = class(TBaseFPCInstaller)
-  strict private
-    FFPCBaseDir      : string;
-    FFPCUnitDir      : string;
-    FFPCLibraryDir   : string;
-    FFPCShareDir     : string;
-    FFPCDataDir      : string;
-    FFPCDocDir       : string;
-    FFPCExampleDir   : string;
-    FFPCMessageDir   : string;
     FTargetCompilerName                     : string;
     FBootstrapCompiler                      : string;
     FBootstrapCompilerDirectory             : string;
@@ -141,15 +132,6 @@ type
     function CleanExtra(aCPU:TCPU=TCPU.cpuNone;aOS:TOS=TOS.osNone):boolean;
   protected
     // FPC components install locations
-    property FPCBaseDir:string read FFPCBaseDir;
-    property FPCUnitDir:string read FFPCUnitDir;
-    property FPCLibraryDir:string read FFPCLibraryDir;
-    property FPCShareDir:string read FFPCShareDir;
-    property FPCDataDir:string read FFPCDataDir;
-    property FPCDocDir:string read FFPCDocDir;
-    property FPCExampleDir:string read FFPCExampleDir;
-    property FPCMessageDir:string read FFPCMessageDir;
-    procedure SetFPCInstallDirectory(value:string);override;
     function GetUnitsInstallDirectory(const WithMagic:boolean=false):string;
     function GetVersionFromUrl(aUrl: string): string;override;
     function GetVersionFromSource: string;override;
@@ -1220,16 +1202,16 @@ begin
           Processor.SetParamNamePathData('INSTALL_PREFIX',InstallDirectory);
           Processor.SetParamNamePathData('INSTALL_SOURCEDIR',SourceDirectory);
 
-          Processor.SetParamNamePathData('INSTALL_BASEDIR',FPCBaseDir);
+          Processor.SetParamNamePathData('INSTALL_BASEDIR',MakeBaseDir);
 
           Processor.SetParamNamePathData('INSTALL_UNITDIR',GetUnitsInstallDirectory);
           Processor.SetParamNamePathData('INSTALL_BINDIR',FPCBinDir);
 
-          Processor.SetParamNamePathData('INSTALL_LIBDIR',FPCLibraryDir);
-          Processor.SetParamNamePathData('INSTALL_SHAREDDIR',FPCShareDir);
-          Processor.SetParamNamePathData('INSTALL_DATADIR',FPCDataDir);
-          Processor.SetParamNamePathData('INSTALL_DOCDIR',FPCDocDir);
-          Processor.SetParamNamePathData('INSTALL_EXAMPLEDIR',FPCExampleDir);
+          Processor.SetParamNamePathData('INSTALL_LIBDIR',MakeLibDir);
+          Processor.SetParamNamePathData('INSTALL_SHAREDDIR',MakeShareDir);
+          Processor.SetParamNamePathData('INSTALL_DATADIR',MakeDataDir);
+          Processor.SetParamNamePathData('INSTALL_DOCDIR',MakeDocDir);
+          Processor.SetParamNamePathData('INSTALL_EXAMPLEDIR',MakeExampleDir);
 
 
           Processor.SetParamNameData('CPU_SOURCE',GetSourceCPU);
@@ -2059,16 +2041,15 @@ begin
   Processor.SetParamNamePathData('INSTALL_PREFIX',InstallDirectory);
   Processor.SetParamNamePathData('INSTALL_SOURCEDIR',SourceDirectory);
 
-  Processor.SetParamNamePathData('INSTALL_BASEDIR',FPCBaseDir);
-
   Processor.SetParamNamePathData('INSTALL_UNITDIR',GetUnitsInstallDirectory);
   Processor.SetParamNamePathData('INSTALL_BINDIR',FPCBinDir);
 
-  Processor.SetParamNamePathData('INSTALL_LIBDIR',FPCLibraryDir);
-  Processor.SetParamNamePathData('INSTALL_SHAREDDIR',FPCShareDir);
-  Processor.SetParamNamePathData('INSTALL_DATADIR',FPCDataDir);
-  Processor.SetParamNamePathData('INSTALL_DOCDIR',FPCDocDir);
-  Processor.SetParamNamePathData('INSTALL_EXAMPLEDIR',FPCExampleDir);
+  Processor.SetParamNamePathData('INSTALL_BASEDIR',MakeBaseDir);
+  Processor.SetParamNamePathData('INSTALL_LIBDIR',MakeLibDir);
+  Processor.SetParamNamePathData('INSTALL_SHAREDDIR',MakeShareDir);
+  Processor.SetParamNamePathData('INSTALL_DATADIR',MakeDataDir);
+  Processor.SetParamNamePathData('INSTALL_DOCDIR',MakeDocDir);
+  Processor.SetParamNamePathData('INSTALL_EXAMPLEDIR',MakeExampleDir);
 
 
   Processor.SetParamNameData('OS_SOURCE',GetSourceOS);
@@ -2317,10 +2298,10 @@ begin
     {$ifdef UNIX}
     // On Unix, the messages are now installed into a undesired directory (fpcbindir).
     // Move them to the root dir where they are expected to be by the auto-generated fpc.cfg
-    if DirectoryExists(FPCMessageDir) then
+    if DirectoryExists(MakeMessageDir) then
     begin
-      DirCopy(FPCMessageDir,InstallDirectory+DirectorySeparator+'msg');
-      if (NOT CheckDirectory(FPCMessageDir)) then DeleteDirectory(FPCMessageDir,False);
+      DirCopy(MakeMessageDir,InstallDirectory+DirectorySeparator+'msg');
+      if (NOT CheckDirectory(MakeMessageDir)) then DeleteDirectory(MakeMessageDir,False);
     end;
     {$endif}
 
@@ -2689,26 +2670,6 @@ begin
   end;
   Infoln(infotext+'Search and removal of stale build files and directories ready.',etDebug);
   WritelnLog(infotext+'Update/build/config succeeded.',false);
-end;
-
-procedure TFPCInstaller.SetFPCInstallDirectory(value:string);
-begin
-  inherited;
-  // Extra settings, mostly for the FPC makefile
-  FFPCUnitDir:=ConcatPaths([FFPCInstallDir,'units']);
-  FFPCLibraryDir:=ConcatPaths([FFPCInstallDir,'lib']);
-  FFPCShareDir:=ConcatPaths([FFPCInstallDir,'share']);
-  FFPCDataDir:=ConcatPaths([FFPCInstallDir,'data']);
-  {$ifdef Windows}
-  FFPCBaseDir:=FFPCInstallDir;
-  FFPCDocDir:='';
-  FFPCExampleDir:='';
-  {$else}
-  FFPCBaseDir:=FPCBinDir;
-  FFPCDocDir:=ConcatPaths([FFPCInstallDir,'doc']);
-  FFPCExampleDir:=ConcatPaths([FFPCInstallDir,'examples']);
-  {$endif}
-  FFPCMessageDir:=ConcatPaths([FFPCBaseDir,'msg']);
 end;
 
 function TFPCInstaller.GetUnitsInstallDirectory(const WithMagic:boolean):string;
@@ -4288,7 +4249,7 @@ begin
         //create fpc.cfg
         Processor.Process.Parameters.Clear;
         Processor.SetParamData('-d');
-        Processor.SetParamData('sharepath='+FPCShareDir);
+        Processor.SetParamData('sharepath='+MakeShareDir);
         Processor.SetParamData('-d');
         Processor.SetParamData('localbasepath='+ConcatPaths([FFPCInstallDir,PACKAGESLOCATION,'units',FPC_TARGET_MAGIC])+'/*');
         RunFPCMkCfgOption(s);

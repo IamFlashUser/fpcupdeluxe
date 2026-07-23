@@ -373,7 +373,7 @@ const LAZLIBS : array [0..33] of string = (
   'libvulkan.so*'
 );
 
-const LAZLINKLIBS : array [0..20] of string = (
+const LAZLINKLIBS : array [0..22] of string = (
   'libgdk-x11-2.0.so',
   'libgtk-x11-2.0.so',
   'libX11.so',
@@ -387,6 +387,8 @@ const LAZLINKLIBS : array [0..20] of string = (
   'libpangocairo-1.0.so',
   'libatk-1.0.so',
   'libglib-1.2.so',
+  'libglib-2.0.so',
+  'libgmodule-2.0.so',
   'libgdk-1.2.so',
   'libgtk-1.2.so',
   'libgdk_pixbuf.so',
