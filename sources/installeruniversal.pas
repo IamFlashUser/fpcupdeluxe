@@ -407,8 +407,6 @@ begin
 
     {$ifdef DISABLELAZBUILDJOBS}
     Processor.SetParamNameData('--max-process-count','1');
-    {$else}
-    Processor.SetParamNameData('--max-process-count',IntToStr(FCPUCount));
     {$endif}
 
     Processor.SetParamNameData('--pcp',DoubleQuoteIfNeeded(FLazarusPrimaryConfigPath));

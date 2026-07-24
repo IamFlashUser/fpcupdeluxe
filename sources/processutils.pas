@@ -95,6 +95,7 @@ type
     FExitCode: integer;
     FExitStatus: integer;
     FFreeData: boolean;
+    FMaxIdleInMS: integer;
     FReadStdOutBeforeErr: boolean;
     FTitle: string;
     FProcessEnvironment:TProcessEnvironment;
@@ -137,6 +138,7 @@ type
     property ExitCode: integer read FExitCode write FExitCode;
     property ExitStatus: integer read FExitStatus write FExitStatus;
     property ErrorMessage: string read FErrorMessage write FErrorMessage;
+    property MaxIdleInMS: integer read FMaxIdleInMS write FMaxIdleInMS; // if >0 then free Process after this time without output (detach, PID is not killed)
     property ReadStdOutBeforeErr: boolean read FReadStdOutBeforeErr write FReadStdOutBeforeErr;
     property Environment:TProcessEnvironment read GetProcessEnvironment;
     Property OnUpdateEvent : TOnUpdateEvent Read FOnUpdateEvent Write FOnUpdateEvent;
@@ -921,7 +923,7 @@ end;
 
 function TExternalToolThread.GetFilter(line: string; aVerbosity:boolean):boolean;
 var
-  s:string;
+  s:shortstring;
 begin
   result:=false;
 
@@ -1295,13 +1297,14 @@ var
   end;
 
 const
-  UpdateTimeDiff = 1000 div 10; // update 10 times a second, even if there is still work
+  UpdateTimeDiff = 1000 div 5; // update 5 times a second, even if there is still work
 var
   OutputLine, StdErrLine: String;
   LastUpdate: QWord;
   ErrMsg: String;
   ok: Boolean;
   HasOutput: Boolean;
+  IdleCount: Integer;
   ProcessCounter:integer;
   aExit:longword;
 begin
@@ -1381,10 +1384,18 @@ begin
 
         if Assigned(Tool.OnUpdateEvent) then Tool.OnUpdateEvent(self,Tool.Stage);
 
-        if (not HasOutput) then
-          sleep(50);
-        //else
-        //  sleep(0);// allow context swith
+        if (not HasOutput) then begin
+          // no more pending output and process is still running
+          // => tool needs some time
+          if Tool.MaxIdleInMS>0 then begin
+            if IdleCount>Tool.MaxIdleInMS then break;
+            Sleep(20);
+            inc(IdleCount,20);
+          end else begin
+            Sleep(50);
+          end;
+        end;
+
       end;
       // add rest of output
 
@@ -1403,8 +1414,11 @@ begin
 
       try
         if Tool.Stage>=etsStopped then exit;
-        Tool.ExitStatus:=Tool.Process.ExitStatus;
-        Tool.ExitCode:=Tool.Process.ExitCode;
+        if (Tool.MaxIdleInMS<1) or (IdleCount<Tool.MaxIdleInMS) then
+        begin
+          Tool.ExitStatus:=Tool.Process.ExitStatus;
+          Tool.ExitCode:=Tool.Process.ExitCode;
+        end;
       except
         Tool.ErrorMessage:=lisUnableToReadProcessExitStatus;
       end;

@@ -743,6 +743,7 @@ type
   {$ifndef FPCONLY}
   TBaseLCLInstaller    = class(TInstaller)
   strict private
+    FMakeSourceDir    : string;
     FMakeBaseDir      : string;
     FMakeUnitDir      : string;
     FMakeBinDir       : string;
@@ -755,6 +756,15 @@ type
     FLCL_Platform: LCL_TYPE;
   protected
     procedure SetLazarusInstallDirectory(value:string);override;
+    property MakeSourceDir:string read FMakeSourceDir;
+    property MakeBaseDir:string read FMakeBaseDir;
+    property MakeUnitDir:string read FMakeUnitDir;
+    property MakeBinDir:string read FMakeBinDir;
+    property MakeLibDir:string read FMakeLibDir;
+    property MakeShareDir:string read FMakeShareDir;
+    property MakeDataDir:string read FMakeDataDir;
+    property MakeDocDir:string read FMakeDocDir;
+    property MakeExampleDir:string read FMakeExampleDir;
   public
     // LCL widget set to be built (NOT OS/CPU combination)
     property LCL_Platform: LCL_TYPE read FLCL_Platform write FLCL_Platform;
@@ -4510,8 +4520,10 @@ begin
   inherited;
 
   // Extra settings, mostly for the Lazarus makefile
+  FMakeSourceDir:=FLazarusSourceDir;
   FMakeBaseDir:=FLazarusInstallDir;
-  FMakeUnitDir:=ConcatPaths([FLazarusInstallDir,'units']);
+  //FMakeUnitDir:=ConcatPaths([FLazarusInstallDir,'units']);
+  FMakeUnitDir:=ConcatPaths([FLazarusInstallDir,'units',GetFPCTarget(true)]);
   FMakeLibDir:=ConcatPaths([FLazarusInstallDir,'lib']);
   FMakeShareDir:=ConcatPaths([FLazarusInstallDir,'share']);
   FMakeDataDir:=ConcatPaths([FLazarusInstallDir,'data']);
@@ -4520,7 +4532,8 @@ begin
   FMakeDocDir:='';
   FMakeExampleDir:='';
   {$else}
-  FMakeBinDir:=ConcatPaths([FLazarusInstallDir,'bin',GetFPCTarget(true)]);
+  FMakeBinDir:=ConcatPaths([FLazarusInstallDir,'bin']);
+  //FMakeBinDir:=ConcatPaths([FLazarusInstallDir,'bin',GetFPCTarget(true)]);
   FMakeDocDir:=ConcatPaths([FLazarusInstallDir,'doc']);
   FMakeExampleDir:=ConcatPaths([FLazarusInstallDir,'examples']);
   {$endif}

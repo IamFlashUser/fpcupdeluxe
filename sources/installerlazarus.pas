@@ -463,6 +463,10 @@ begin
         // Might however be very unnecessary, but add it because we also do this when using Make itself
         Processor.Environment.SetVar('USESVN2REVISIONINC','0');
 
+        {$ifdef DISABLELAZBUILDJOBS}
+        Processor.SetParamNameData('--max-process-count','1');
+        {$endif}
+
         Processor.SetParamData('--pcp=' + DoubleQuoteIfNeeded(FLazarusPrimaryConfigPath));
 
         // Apparently, the .compiled file, that are used to check for a rebuild, do not contain a cpu setting if cpu and cross-cpu do not differ !!
@@ -730,28 +734,21 @@ begin
     Processor.SetParamNamePathData('INSTALL_PREFIX',InstallDirectory);
     Processor.SetParamNamePathData('LAZARUS_INSTALL_DIR',IncludeTrailingPathDelimiter(InstallDirectory));
 
-    Processor.SetParamNamePathData('INSTALL_BASEDIR',InstallDirectory);
-
-    Processor.SetParamNamePathData('INSTALL_BINDIR',ConcatPaths([InstallDirectory,'bin']));
-    Processor.SetParamNamePathData('INSTALL_LIBDIR',ConcatPaths([InstallDirectory,'lib']));
-
-    Processor.SetParamNamePathData('INSTALL_UNITDIR',ConcatPaths([InstallDirectory,'units',GetFPCTarget(true)]));
-    //Processor.SetParamNamePathData('INSTALL_UNITDIR',ConcatPaths([InstallDirectory,'units']));
-
-    Processor.SetParamNamePathData('INSTALL_SOURCEDIR',SourceDirectory);
-
-    {$ifndef Windows}
-    Processor.SetParamNamePathData('INSTALL_DOCDIR',ConcatPaths([InstallDirectory,'doc']));
-    Processor.SetParamNamePathData('INSTALL_EXAMPLEDIR',ConcatPaths([InstallDirectory,'examples']));
-    {$endif}
-
-    //Processor.SetParamNamePathData('INSTALL_DATADIR',InstallDirectory);
-    Processor.SetParamNamePathData('INSTALL_DATADIR',ConcatPaths([InstallDirectory,'data']));
-
     //Make sure our FPC units can be found by Lazarus
     Processor.SetParamNamePathData('FPCDIR',FFPCSourceDir);
     //Processor.SetParamNamePathData('FPCDIR',FFPCInstallDir);
     //Processor.SetParamNamePathData('FPCDIR',ConcatPaths([FFPCInstallDir,'units',GetFPCTarget(true)]));
+
+    Processor.SetParamNamePathData('INSTALL_BASEDIR',MakeBaseDir);
+    Processor.SetParamNamePathData('INSTALL_BINDIR',MakeBinDir);
+    Processor.SetParamNamePathData('INSTALL_LIBDIR',MakeLibDir);
+    Processor.SetParamNamePathData('INSTALL_UNITDIR',MakeUnitDir);
+    Processor.SetParamNamePathData('INSTALL_SOURCEDIR',MakeSourceDir);
+    {$ifndef Windows}
+    Processor.SetParamNamePathData('INSTALL_DOCDIR',MakeDocDir);
+    Processor.SetParamNamePathData('INSTALL_EXAMPLEDIR',MakeExampleDir);
+    {$endif}
+    Processor.SetParamNamePathData('INSTALL_DATADIR',MakeDataDir);
 
     //Make sure Lazarus does not pick up these tools from other installs
     Processor.SetParamNamePathData('FPCMAKE',FPCBinDir+DirectorySeparator+'fpcmake'+GetExeExt);
@@ -1022,6 +1019,10 @@ begin
       // Quiet:=ConsoleVerbosity<=-3;
       //Processor.SetParamData('--quiet');
       {$ENDIF}
+
+      {$ifdef DISABLELAZBUILDJOBS}
+      Processor.SetParamNameData('--max-process-count','1');
+      {$endif}
 
       Processor.SetParamNameData('--pcp',DoubleQuoteIfNeeded(FLazarusPrimaryConfigPath));
       Processor.SetParamNameData('--cpu',GetSourceCPU);
