@@ -156,7 +156,7 @@ const
   // Versions used when new config files are generated.
   // Lazarus pre 1.0: 106
   // We can assume Lazarus trunk can parse this version:
-  TrunkVersionNewEnvironmentConfig='120';
+  TrunkVersionNewEnvironmentConfig='112';
   TrunkLazarusNewEnvironmentConfig=LAZARUSTRUNKVERSION;
   // We use a hardcoded version for Lazarus below
   VersionNewHelpConfig='1';

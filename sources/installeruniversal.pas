@@ -1185,46 +1185,54 @@ begin
 
         if (LowerCase(ModuleName)='fpdebug') then
         begin
-          LazarusConfig:=TUpdateLazConfig.Create(FLazarusPrimaryConfigPath);
-          try
-            s2:='EnvironmentOptions/Debugger/Configs/';
-            LegacyList:=LazarusConfig.IsLegacyList(EnvironmentConfig, s2);
-            ListCount:=LazarusConfig.GetListItemCount(EnvironmentConfig, s2, 'Config', LegacyList);
 
-            // Lookup previous setting, if any
-            while (ListCount>0) do
-            begin
-              Dec(ListCount);
-              s:=s2+LazarusConfig.GetListItemXPath(EnvironmentConfig,'Config',ListCount,LegacyList,True)+'/';
-              if AnsiSameText('TFpDebugDebugger',LazarusConfig.GetVariable(EnvironmentConfig, s+'ConfigClass')) then
-              begin
-                // Previous config setting found. Set flag.
-                ListCount:=-1;
-                break;
-              end;
-            end;
+          if (CalculateNumericalVersion(LazarusVersion)>=CalculateFullVersion(3,0,0)) then
+          begin
 
-            // Flag not set. Nothing found. Add new config.
-            if (ListCount<>-1) then
-            begin
-              // Add fpdebug settings and activate
-              ListCount:=LazarusConfig.GetListItemCount(EnvironmentConfig, s2, 'Config', LegacyList);
-              s:=s2+LazarusConfig.GetListItemXPath(EnvironmentConfig,'Config',ListCount,LegacyList,True)+'/';
-              LazarusConfig.SetVariable(EnvironmentConfig, s+'ConfigName', 'FpDebug');
-              LazarusConfig.SetVariable(EnvironmentConfig, s+'ConfigClass', 'TFpDebugDebugger');
-              // Activate fpdebug
-              LazarusConfig.SetVariable(EnvironmentConfig, s+'Active',True);
-              // Deativate other debugger(s)
+            LazarusConfig:=TUpdateLazConfig.Create(FLazarusPrimaryConfigPath);
+            try
+              s2:='Debugger/Backends/';
+              LegacyList:=LazarusConfig.IsLegacyList(DebuggerConfig, s2);
+              ListCount:=LazarusConfig.GetListItemCount(DebuggerConfig, s2, 'Config', LegacyList);
+
+              // Lookup previous setting, if any
               while (ListCount>0) do
               begin
                 Dec(ListCount);
-                s:=s2+LazarusConfig.GetListItemXPath(EnvironmentConfig,'Config',ListCount,LegacyList,True)+'/';
-                LazarusConfig.SetVariable(EnvironmentConfig, s+'Active',False);
+                s:=s2+LazarusConfig.GetListItemXPath(DebuggerConfig,'Config',ListCount,LegacyList,True)+'/';
+                if AnsiSameText('TFpDebugDebugger',LazarusConfig.GetVariable(DebuggerConfig, s+'ConfigClass')) then
+                begin
+                  // Previous config setting found. Set flag.
+                  ListCount:=-1;
+                  break;
+                end;
               end;
+
+              // Flag not set. Nothing found. Add new config.
+              if (ListCount<>-1) then
+              begin
+                // Add fpdebug settings and activate
+                ListCount:=LazarusConfig.GetListItemCount(DebuggerConfig, s2, 'Config', LegacyList);
+                s:=s2+LazarusConfig.GetListItemXPath(DebuggerConfig,'Config',ListCount,LegacyList,True)+'/';
+                LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigName', 'Standard FpDebug');
+                LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigClass', 'TFpDebugDebugger');
+                // Activate fpdebug
+                LazarusConfig.SetVariable(DebuggerConfig, s+'Active',True);
+                // Deativate other debugger(s)
+                while (ListCount>0) do
+                begin
+                  Dec(ListCount);
+                  s:=s2+LazarusConfig.GetListItemXPath(DebuggerConfig,'Config',ListCount,LegacyList,True)+'/';
+                  LazarusConfig.SetVariable(DebuggerConfig, s+'Active',False);
+                end;
+              end;
+
+            finally
+              LazarusConfig.Free;
             end;
-          finally
-            LazarusConfig.Free;
+
           end;
+
         end;
 
         if (LowerCase(ModuleName)='lamw') AND (Pos('amw_ide_tools',LowerCase(PackagePath))>0) then
