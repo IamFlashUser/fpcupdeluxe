@@ -1734,6 +1734,7 @@ begin
         // The system gdb is ancient (gdb 6.1.1 in FreeBSD 9) and does not work well with Laz
         GDBPath := '/usr/local/bin/gdb';
         if (NOT FileExists(GDBPath)) OR (NOT CheckExecutable(GDBPath, ['--version'], 'GNU gdb')) then GDBPath := '/usr/libexec/gdb';
+        if (NOT FileExists(GDBPath)) OR (NOT CheckExecutable(GDBPath, ['--version'], 'GNU gdb')) then GDBPath := '/usr/bin/gdb';
         if (NOT FileExists(GDBPath)) OR (NOT CheckExecutable(GDBPath, ['--version'], 'GNU gdb')) then GDBPath := which('gdb');
         {$ELSE}//other *nix
         GDBPath := which('gdb');  //assume in path
@@ -1764,7 +1765,11 @@ begin
           if LazarusConfig.IfNewFile(DebuggerConfig) then
           begin
             ConfigSwitch:=LazarusConfig.IsLegacyList(DebuggerConfig, 'Debugger/Backends/');
-            s:='Debugger/Backends/'+LazarusConfig.GetListItemXPath(DebuggerConfig,'Config',0,ConfigSwitch,True)+'/';
+
+            j:=0;
+            s:='Debugger/Backends/'+LazarusConfig.GetListItemXPath(DebuggerConfig,'Config',j,ConfigSwitch,True)+'/';
+            Inc(j);
+
 
             {$IF DEFINED(MSWINDOWS) OR DEFINED(LINUX) OR DEFINED(DARWIN)}
             // Must use new DebuggerConfig:
@@ -1779,30 +1784,26 @@ begin
             LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigName', 'Standard FpDebug');
             LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigClass','TFpDebugDebugger');
             LazarusConfig.SetVariable(DebuggerConfig, s+'Active',True);
-            if (Length(GDBPath)>0) then
-            begin
-              s:='Debugger/Backends/'+LazarusConfig.GetListItemXPath(DebuggerConfig,'Config',1,ConfigSwitch,True)+'/';
-              LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigName', 'Standard GDB');
-              LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigClass', 'TGDBMIDebugger');
-              LazarusConfig.SetVariable(DebuggerConfig, s+'DebuggerFilename',GDBPath);
-              LazarusConfig.SetVariable(DebuggerConfig, s+'Active',False);
-            end;
             {$ELSE}
             LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigName', 'LLDB through FpDebug');
             LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigClass','TFpLldbDebugger');
             LazarusConfig.SetVariable(DebuggerConfig, s+'DebuggerFilename',LLDBPath);
             LazarusConfig.SetVariable(DebuggerConfig, s+'Active',True);
             {$ENDIF}
-            {$ELSE}
-            // Other systems like FreeBSD, OpenBSD and others
+
+            s:='Debugger/Backends/'+LazarusConfig.GetListItemXPath(DebuggerConfig,'Config',j,ConfigSwitch,True)+'/';
+            Inc(j);
+
+            {$ENDIF}
+
             if (Length(GDBPath)>0) then
             begin
               LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigName', 'Standard GDB');
               LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigClass', 'TGDBMIDebugger');
               LazarusConfig.SetVariable(DebuggerConfig, s+'DebuggerFilename',GDBPath);
-              LazarusConfig.SetVariable(DebuggerConfig, s+'Active',True);
+              if j=1 then LazarusConfig.SetVariable(DebuggerConfig, s+'Active',True);
             end;
-            {$ENDIF}
+
           end;
         end
         else
