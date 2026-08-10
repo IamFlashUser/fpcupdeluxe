@@ -69,6 +69,7 @@ if TargetOS=&apos;openbsd&apos; then
           <Linking>
             <Debugging>
               <DebugInfoType Value="dsDwarf2"/>
+              <UseHeaptrc Value="True"/>
             </Debugging>
           </Linking>
         </CompilerOptions>

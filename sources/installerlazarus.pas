@@ -1801,7 +1801,11 @@ begin
               LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigName', 'Standard GDB');
               LazarusConfig.SetVariable(DebuggerConfig, s+'ConfigClass', 'TGDBMIDebugger');
               LazarusConfig.SetVariable(DebuggerConfig, s+'DebuggerFilename',GDBPath);
-              if j=1 then LazarusConfig.SetVariable(DebuggerConfig, s+'Active',True);
+              // If GDB is the only debugger, set it active
+              if j=1 then
+                LazarusConfig.SetVariable(DebuggerConfig, s+'Active',True)
+              else
+                LazarusConfig.SetVariable(DebuggerConfig, s+'Active',False);
             end;
 
           end;
@@ -2002,10 +2006,12 @@ begin
       LazarusConfig.SetVariable(EnvironmentConfig, 'Desktops/Desktop1/MessagesView/CustomPosition/Top', '600');
       LazarusConfig.SetVariable(EnvironmentConfig, 'Desktops/Desktop1/MessagesView/CustomPosition/Width', '600');
       LazarusConfig.SetVariable(EnvironmentConfig, 'Desktops/Desktop1/MessagesView/CustomPosition/Height', '100');
-      LazarusConfig.SetVariable(EnvironmentConfig, 'Desktops/Desktop1/MessagesView/Visible/Value', 'True');
       {$else}
       LazarusConfig.SetVariable(EnvironmentConfig, 'Desktops/Desktop1/ObjectInspectorDlg/Visible/Value', 'True');
       {$endif}
+
+      LazarusConfig.SetVariableIfNewFile(EnvironmentConfig, 'Desktops/Desktop1/MainIDE/CustomPosition/Height', '70');
+      LazarusConfig.SetVariable(EnvironmentConfig, 'Desktops/Desktop1/MessagesView/Visible/Value', 'True');
 
       for ConfigSwitch in boolean do
       begin

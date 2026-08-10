@@ -4777,6 +4777,8 @@ begin
   {$endif}
 
   Cores:=GetLogicalCpuCount;
+  //Cores:=GetCPUCount;
+
   if Cores<>0 then AddMessage('CPU cores used: '+InttoStr(Cores));
   MemAvailable:=GetTotalPhysicalMemory;
   if (MemAvailable<>0) then AddMessage('Available physical memory: '+InttoStr(MemAvailable)+' MB');
