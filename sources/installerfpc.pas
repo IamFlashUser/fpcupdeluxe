@@ -3910,7 +3910,7 @@ begin
 
         if FileExists(FCompiler) then
         begin
-          Infoln(infotext+'FPCUP bootstrapper was not available. Found another one. Going to it: '+FCompiler,etInfo);
+          Infoln(infotext+'FPCUP bootstrapper was not available. Found another one. Going to use it: '+FCompiler,etInfo);
         end;
       end;
     end;

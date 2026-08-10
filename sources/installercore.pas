@@ -1251,7 +1251,11 @@ begin
           CryptoSucceeded:=(FileExists(CryptoLib) AND FileExists(SSLLib));
           if CryptoSucceeded then
           begin
+            {$IF DEFINED(FPC_FULLVERSION) AND (FPC_FULLVERSION > 30202)}
             CryptoSucceeded:=InitSSLInterface(SSLLib,CryptoLib);
+            {$ELSE}
+            CryptoSucceeded:=InitSSLInterface(False);
+            {$ENDIF}
             if CryptoSucceeded then break;
           end;
           Inc(i);
@@ -1279,7 +1283,11 @@ begin
             CryptoSucceeded:=(FileExists(CryptoLib) AND FileExists(SSLLib));
             if CryptoSucceeded then
             begin
+              {$IF DEFINED(FPC_FULLVERSION) AND (FPC_FULLVERSION > 30202)}
               CryptoSucceeded:=InitSSLInterface(SSLLib,CryptoLib);
+              {$ELSE}
+              CryptoSucceeded:=InitSSLInterface(False);
+              {$ENDIF}
               if CryptoSucceeded then break;
             end;
             Inc(i);
