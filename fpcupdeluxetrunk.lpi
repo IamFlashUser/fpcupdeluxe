@@ -304,38 +304,6 @@ if TargetOS=&apos;openbsd&apos; then
           </Linking>
         </CompilerOptions>
       </Item>
-      <Item Name="OpenBSDAMD64">
-        <MacroValues Count="1">
-          <Macro2 Name="LCLWidgetType" Value="gtk2"/>
-        </MacroValues>
-        <CompilerOptions>
-          <Version Value="11"/>
-          <PathDelim Value="\"/>
-          <Target>
-            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
-            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
-            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <CodeGeneration>
-            <TargetCPU Value="x86_64"/>
-            <TargetOS Value="openbsd"/>
-            <Optimizations>
-              <OptimizationLevel Value="2"/>
-            </Optimizations>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-              <RunWithoutDebug Value="True"/>
-              <DebugInfoType Value="dsDwarf3"/>
-              <UseLineInfoUnit Value="False"/>
-            </Debugging>
-          </Linking>
-        </CompilerOptions>
-      </Item>
       <Item Name="FreeBSDARM64">
         <CompilerOptions>
           <Version Value="11"/>
@@ -717,9 +685,336 @@ if TargetOS=&apos;openbsd&apos; then
           </Linking>
         </CompilerOptions>
       </Item>
+      <Item Name="OpenBSDAMD64-0701">
+        <MacroValues Count="1">
+          <Macro2 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0701"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0701
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0701\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0701\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0701\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="OpenBSDAMD64-0702">
+        <MacroValues Count="1">
+          <Macro2 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0702"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0702
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0702\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0702\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0702\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="OpenBSDAMD64-0703">
+        <MacroValues Count="1">
+          <Macro2 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0703"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0703
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0703\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0703\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0703\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="OpenBSDAMD64-0704">
+        <MacroValues Count="1">
+          <Macro2 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0704"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0704
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0704\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0704\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0704\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="OpenBSDAMD64-0705">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0705"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0705
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0705\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0705\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0705\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="OpenBSDAMD64-0706">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0706"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0706
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0706\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0706\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0706\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="OpenBSDAMD64-0707">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0707"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0707
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0707\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0707\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0707\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="OpenBSDAMD64-0708">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0708"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0708
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0708\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0708\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0708\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="OpenBSDAMD64-0709">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="deluxebin\fpcupdeluxe-$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)-0709"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);sources;mORMot"/>
+            <OtherUnitFiles Value="sources;sources\updeluxe;sources\crossinstallers;metadarkstyle;synaser;dcpcrypt;dcpcrypt\Ciphers;dcpcrypt\Hashes;logger;mORMot;mORMot\CrossPlatform;downloader\src\forms;downloader\src\common"/>
+            <UnitOutputDirectory Value="buildlibs\$NameOnly($(ProjFile))\$NameOnly($Project(InfoFile))\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="openbsd"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0709
+-FlC:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0709\usr\X11R6\lib
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0709\
+-k--library-path=C:\fpcupsystems\trunklatest\cross\lib\x86_64-openbsd-0709\usr\X11R6\lib\"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
       <SharedMatrixOptions Count="6">
         <Item1 ID="322994045052" Modes="darwinarm64cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
-        <Item2 ID="369111111759" Modes="linuxloongarch64,openbsdi386,linuxriscv64,OpenBSDAMD64" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+        <Item2 ID="369111111759" Modes="linuxloongarch64,openbsdi386,linuxriscv64,OpenBSDAMD64-0704,OpenBSDAMD64-0701,OpenBSDAMD64-0702,OpenBSDAMD64-0703" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
         <Item3 ID="636969686655" Modes="win64arm64" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
         <Item4 ID="025788722890" Modes="FreeBSDAMD64qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
         <Item5 ID="457001635124" Modes="linuxARM64QT6,linuxARM64QT6zip,LinuxAMD64QT6,LinuxAMD64QT6zip,FreeBSDAMD64qt6,FreeBSDAMD64qt6zip" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt6"/>
