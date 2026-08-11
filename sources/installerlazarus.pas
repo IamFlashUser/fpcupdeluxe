@@ -446,9 +446,9 @@ begin
         if Length(Options)>0 then Processor.SetParamNameData('OPT',Options);
 
         if (LCL_Platform <> GetBuildLCLWidgetType) then
-        GetLCLName(LCL_Platform);
+          GetLCLName(LCL_Platform);
 
-          Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(LCL_Platform));
+        Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(LCL_Platform));
 
         //Processor.SetParamData('all');
 
@@ -786,7 +786,18 @@ begin
     //Processor.SetParamNamePathData('FPCFPMAKE',ExtractFilePath(FCompiler)+GetCompilerName(GetSourceCPU));
 
     if (LCL_Platform <> GetBuildLCLWidgetType) then
+    begin
       Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(LCL_Platform));
+    end
+    else
+    begin
+      {$ifdef LCLGTK3}
+      Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(lpGtk3));
+      {$endif}
+      {$ifdef LCLGTK2}
+      Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(lpGtk2));
+      {$endif}
+    end;
 
     //Processor.SetParamNameData('OPT',MaybeQuotedSpacesOnly(localoptions));
     Processor.SetParamNameData('OPT',localoptions);
@@ -943,7 +954,7 @@ begin
         Result := false;
         exit;
       end;
-      if (LCL_Platform<>GetBuildLCLWidgetType) then Processor.SetParamNameData('LCL_PLATFORM',GetLCLName(LCL_Platform));
+
     end;
 
     try
@@ -1041,8 +1052,21 @@ begin
       Processor.SetParamNameData('--cpu',GetSourceCPU);
       Processor.SetParamNameData('--os',GetSourceOS);
 
+
       if (LCL_Platform <> GetBuildLCLWidgetType) then
+      begin
         Processor.SetParamNameData('--ws',GetLCLName(LCL_Platform));
+      end
+      else
+      begin
+        {$ifdef LCLGTK3}
+        Processor.SetParamNameData('--ws',GetLCLName(lpGtk3));
+        {$endif}
+        {$ifdef LCLGTK2}
+        Processor.SetParamNameData('--ws',GetLCLName(lpGtk2));
+        {$endif}
+      end;
+
 
       // Support keeping userdefined installed packages when building.
       // Compile with selected compiler options

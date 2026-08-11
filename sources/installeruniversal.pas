@@ -413,8 +413,19 @@ begin
     Processor.SetParamNameData('--cpu',GetSourceCPU);
     Processor.SetParamNameData('--os',GetSourceOS);
 
-    if LCL_Platform <> GetBuildLCLWidgetType then
+    if (LCL_Platform <> GetBuildLCLWidgetType) then
+    begin
       Processor.SetParamNameData('--ws',GetLCLName(LCL_Platform));
+    end
+    else
+    begin
+      {$ifdef LCLGTK3}
+      Processor.SetParamNameData('--ws',GetLCLName(lpGtk3));
+      {$endif}
+      {$ifdef LCLGTK2}
+      Processor.SetParamNameData('--ws',GetLCLName(lpGtk2));
+      {$endif}
+    end;
 
     if LinuxLegacy then Processor.SetParamNameData('--compiler',ExtractFilePath(FCompiler)+'fpccompat.sh');
 
@@ -462,15 +473,32 @@ begin
         LazarusConfig.SetVariable(MiscellaneousConfig, 'MiscellaneousOptions/BuildLazarusOptions/Profiles/Profile0/Options/Count', 1);
         LazarusConfig.SetVariable(MiscellaneousConfig, 'MiscellaneousOptions/BuildLazarusOptions/Profiles/Profile0/Options/Item1/Value', Trim(FLazarusCompilerOptions));
       end;
+
+      s:='';
       if (LCL_Platform <> GetBuildLCLWidgetType) then
+      begin
+        s:=GetLCLName(LCL_Platform);
+      end
+      else
+      begin
+        {$ifdef LCLGTK3}
+        s:=GetLCLName(lpGtk3);
+        {$endif}
+        {$ifdef LCLGTK2}
+        s:=GetLCLName(lpGtk2);
+        {$endif}
+      end;
+
+      if (Length(s)>0) then
       begin
         // Change the build modes to reflect the default LCL widget set.
         for j:=0 to (i-1) do
         begin
-          Infoln(infotext+'Changing default LCL_platforms for build-profiles in '+MiscellaneousConfig+' to build for '+GetLCLName(LCL_Platform), etInfo);
-          LazarusConfig.SetVariable(MiscellaneousConfig, 'MiscellaneousOptions/BuildLazarusOptions/Profiles/Profile'+InttoStr(j)+'/LCLPlatform/Value', GetLCLName(LCL_Platform));
+          Infoln(infotext+'Changing default LCL_platforms for build-profiles in '+MiscellaneousConfig+' to build for '+s, etInfo);
+          LazarusConfig.SetVariable(MiscellaneousConfig, 'MiscellaneousOptions/BuildLazarusOptions/Profiles/Profile'+InttoStr(j)+'/LCLPlatform/Value', s);
         end;
       end;
+
     end;
   finally
     LazarusConfig.Free;
@@ -839,8 +867,20 @@ begin
   Processor.SetParamData('--pcp=' + DoubleQuoteIfNeeded(FLazarusPrimaryConfigPath));
   Processor.SetParamData('--cpu=' + GetSourceCPU);
   Processor.SetParamData('--os=' + GetSourceOS);
-  if LCL_Platform <> GetBuildLCLWidgetType then
-            Processor.SetParamNameData('--ws',GetLCLName(LCL_Platform));
+
+  if (LCL_Platform <> GetBuildLCLWidgetType) then
+  begin
+    Processor.SetParamNameData('--ws',GetLCLName(LCL_Platform));
+  end
+  else
+  begin
+    {$ifdef LCLGTK3}
+    Processor.SetParamNameData('--ws',GetLCLName(lpGtk3));
+    {$endif}
+    {$ifdef LCLGTK2}
+    Processor.SetParamNameData('--ws',GetLCLName(lpGtk2));
+    {$endif}
+  end;
 
   if RegisterPackageFeature then
     Processor.SetParamData('--add-package-link')
@@ -1345,7 +1385,20 @@ begin
       //s:='--quiet';
       {$ENDIF}
 
-      if LCL_Platform<>GetBuildLCLWidgetType then s:=s+' --ws=' + GetLCLName(LCL_Platform);
+      if (LCL_Platform <> GetBuildLCLWidgetType) then
+      begin
+        s:=s+' --ws=' + GetLCLName(LCL_Platform);
+      end
+      else
+      begin
+        {$ifdef LCLGTK3}
+        s:=s+' --ws=' + GetLCLName(lpGtk3);
+        {$endif}
+        {$ifdef LCLGTK2}
+        s:=s+' --ws=' + GetLCLName(lpGtk2);
+        {$endif}
+      end;
+
       exec:=StringReplace(exec,LAZBUILDNAME+GetExeExt,LAZBUILDNAME+GetExeExt+' '+s,[rfIgnoreCase]);
     end;
     {$endif}

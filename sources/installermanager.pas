@@ -2482,6 +2482,12 @@ begin
     {$IF DEFINED(FPC_FULLVERSION) AND (FPC_FULLVERSION > 30000)}
     if (Length(WidgetTypeName)=0) then WidgetTypeName:=GetLCLWidgetTypeName;
     {$ENDIF}
+    {$ifdef LCLGTK3}
+    WidgetTypeName:=GetLCLName(lpGtk3);
+    {$endif}
+    {$ifdef LCLGTK2}
+    WidgetTypeName:=GetLCLName(lpGtk2);
+    {$endif}
     FParent.WritelnLog(etInfo,'Checking dev-libs for '+WidgetTypeName+' LCLWidgetType.', true);
     result:=CheckDevLibs(WidgetTypeName);
   end
