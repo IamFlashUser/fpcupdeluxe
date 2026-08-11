@@ -3882,35 +3882,44 @@ begin
 
     OperationSucceeded:=false;
 
-    if NOT FileExists(FCompiler) then
+    if (NOT FileExists(FCompiler)) then
     begin
       // can we use a FPC bootstrapper that is already on the system (somewhere in the path) ?
       if true then
       //if NativeFPCBootstrapCompiler then
       begin
+        // Find a bootstrap compiler somewhere on the system
         s:=GetCompilerName(GetSourceCPU);
         s:=Which(s);
-        {$ifdef Darwin}
-        // Due to codesigning, do not copy, but just use it.
-        if FileExists(s) then Compiler:=s;
-        {$else}
-        //Copy the compiler to our bootstrap directory
-        if FileExists(s) then FileCopy(s,FCompiler);
-        {$endif}
-        if NOT FileExists(s) then
+        if (NOT FileExists(s)) then
         begin
           s:='fpc'+GetExeExt;
           s:=Which(s);
-          if FileExists(s) then
-          begin
-            s2:=CompilerCPUOSTarget(s);
-            if s2=GetSourceCPUOS then Compiler:=s;
-          end;
         end;
-
-        if FileExists(FCompiler) then
+        if FileExists(s) then
         begin
-          Infoln(infotext+'FPCUP bootstrapper was not available. Found another one. Going to use it: '+FCompiler,etInfo);
+          s2:=CompilerCPUOSTarget(s);
+          if s2=GetSourceCPUOS then
+          begin
+            // Only allow a compiler in the path that has the exact correct version !!
+            s2:=CompilerVersion(s);
+            OperationSucceeded:=((s2=RequiredBootstrapVersionLow) OR (s2=RequiredBootstrapVersionHigh));
+            if OperationSucceeded then
+            begin
+              Infoln(infotext+'FPCUP bootstrapper was not available [yet]. Found another suitable one on this system. Going to use it: '+FCompiler,etInfo);
+              {$ifdef Darwin}
+              // Due to codesigning, do not copy, but just use it.
+              Compiler:=s;
+              {$else}
+              //Copy the compiler to our bootstrap directory, but only if it is a proper ppc compiler.
+              s2:=GetCompilerName(GetSourceCPU);
+              if (ExtractFileName(s)=s2) then
+                FileCopy(s,FCompiler)
+              else
+                Compiler:=s;
+              {$endif}
+            end;
+          end;
         end;
       end;
     end;
