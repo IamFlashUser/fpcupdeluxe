@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="12"/>
+    <Version Value="13"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -9,7 +9,6 @@
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
         <MainUnitHasScaledStatement Value="False"/>
-        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <Title Value="fpclazup"/>
@@ -28,9 +27,9 @@
     <MacroValues Count="1">
       <Macro1 Name="LCLWidgetType" Value="nogui"/>
     </MacroValues>
-    <BuildModes Count="16">
-      <Item1 Name="Default" Default="True"/>
-      <Item2 Name="Debug">
+    <BuildModes>
+      <Item Name="Default" Default="True"/>
+      <Item Name="Debug">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -78,8 +77,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item2>
-      <Item3 Name="win32">
+      </Item>
+      <Item Name="win32">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -116,8 +115,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item3>
-      <Item4 Name="win64">
+      </Item>
+      <Item Name="win64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -155,8 +154,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item4>
-      <Item5 Name="linuxi386">
+      </Item>
+      <Item Name="linuxi386">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -194,8 +193,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item5>
-      <Item6 Name="linux64">
+      </Item>
+      <Item Name="linux64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -233,8 +232,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item6>
-      <Item7 Name="linuxaarch64">
+      </Item>
+      <Item Name="linuxaarch64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -272,8 +271,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item7>
-      <Item8 Name="freebsdi386">
+      </Item>
+      <Item Name="freebsdi386">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -311,8 +310,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item8>
-      <Item9 Name="freebsdx64">
+      </Item>
+      <Item Name="freebsdx64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -350,8 +349,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item9>
-      <Item10 Name="linuxppc64">
+      </Item>
+      <Item Name="linuxppc64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -389,8 +388,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item10>
-      <Item11 Name="darwinx64">
+      </Item>
+      <Item Name="darwinx64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -428,8 +427,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item11>
-      <Item12 Name="darwinarm64">
+      </Item>
+      <Item Name="darwinarm64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -465,8 +464,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item12>
-      <Item13 Name="darwini386">
+      </Item>
+      <Item Name="darwini386">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -504,8 +503,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item13>
-      <Item14 Name="win64arm">
+      </Item>
+      <Item Name="win64arm">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -547,8 +546,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item14>
-      <Item15 Name="openbsdx64">
+      </Item>
+      <Item Name="openbsdx64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -586,8 +585,8 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item15>
-      <Item16 Name="openbsdi386">
+      </Item>
+      <Item Name="openbsdi386">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="nogui"/>
         </MacroValues>
@@ -625,7 +624,7 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item16>
+      </Item>
       <SharedMatrixOptions Count="1">
         <Item1 ID="233755810855" Modes="Default,Debug,win32,win64,linuxi386,linux64,linuxaarch64,freebsdi386,freebsdx64,linuxppc64,darwinx64,darwinarm64,darwini386,win64arm,openbsdx64,openbsdi386" Type="IDEMacro" MacroName="LCLWidgetType" Value="nogui"/>
       </SharedMatrixOptions>
@@ -638,32 +637,32 @@ end;"/>
         <CommandLineParams Value="--installdir=C:\fpcupsystems\uptest  --fpcVersion=&quot;stable.gitlab&quot; --lazVersion=&quot;trunk.gitlab&quot; --fpcOPT=&quot;-FDC:\yolo -dYOLO&quot; --verbose"/>
       </local>
       <FormatVersion Value="2"/>
-      <Modes Count="2">
-        <Mode0 Name="default">
+      <Modes>
+        <Mode Name="default">
           <local>
             <CommandLineParams Value="--installdir=C:\fpcupsystems\uptest  --fpcVersion=&quot;stable.gitlab&quot; --lazVersion=&quot;trunk.gitlab&quot; --fpcOPT=&quot;-FDC:\yolo -dYOLO&quot; --verbose"/>
           </local>
-        </Mode0>
-        <Mode1 Name="docker">
+        </Mode>
+        <Mode Name="docker">
           <local>
             <CommandLineParams Value="--installdir=&quot;C:\fpcupsystems\yolo3&quot; --fpcsplit --fpcURL=&quot;gitlab&quot; --fpcRevision=&quot;777d536d&quot; --lazVersion=&quot;trunk.gitlab&quot;"/>
           </local>
-        </Mode1>
+        </Mode>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="2">
-      <Item1>
+    <RequiredPackages>
+      <Item>
         <PackageName Value="LCLBase"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <PackageName Value="LazUtils"/>
-      </Item2>
+      </Item>
     </RequiredPackages>
-    <Units Count="1">
-      <Unit0>
+    <Units>
+      <Unit>
         <Filename Value="fpcup.lpr"/>
         <IsPartOfProject Value="True"/>
-      </Unit0>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -702,25 +701,25 @@ end;"/>
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="6">
-      <Item1>
+    <Exceptions>
+      <Item>
         <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <Name Value="EFOpenError"/>
-      </Item3>
-      <Item4>
+      </Item>
+      <Item>
         <Name Value="EProcess"/>
-      </Item4>
-      <Item5>
+      </Item>
+      <Item>
         <Name Value="ECommandLineError"/>
-      </Item5>
-      <Item6>
+      </Item>
+      <Item>
         <Name Value="EInOutError"/>
-      </Item6>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>

@@ -4678,6 +4678,7 @@ begin
   inherited Destroy;
 end;
 
+{$ifndef FPCONLY}
 procedure TBaseLCLInstaller.SetLazarusInstallDirectory(value:string);
 begin
   inherited;
@@ -4701,6 +4702,7 @@ begin
   FMakeExampleDir:=ConcatPaths([FLazarusInstallDir,'examples']);
   {$endif}
 end;
+{$endif}
 
 procedure TBaseFPCInstaller.SetFPCInstallDirectory(value:string);
 begin

@@ -247,6 +247,7 @@ var
 begin
   result:='0.0.0';
 
+  {$ifndef FPCONLY}
   if GetInstallerClass(THelpLazarusInstaller) then
   begin
     LazbuildApp:=IncludeTrailingPathDelimiter(FLazarusInstallDir)+LAZBUILDNAME+GetExeExt;
@@ -271,7 +272,7 @@ begin
       end;
     end;
   end;
-
+  {$endif}
   if GetInstallerClass(THelpFPCInstaller) then
   begin
     result:=CompilerVersion(GetFPCInBinDir);
@@ -300,7 +301,9 @@ begin
 
   PlainBinDir := SafeExpandFileName(FPCBinDir+DirectorySeparator+'..'+DirectorySeparator+'..');
 
+  {$ifndef FPCONLY}
   if GetInstallerClass(THelpLazarusInstaller) then InstallDirectory:=FLazarusInstallDir;
+  {$endif}
   if GetInstallerClass(THelpFPCInstaller) then InstallDirectory:=FFPCInstallDir;
 
   result:=(CheckAndGetTools) AND (CheckAndGetNeededBinUtils);
