@@ -361,6 +361,7 @@ function LibWhich(const aLibrary: string): boolean;
 // Emulates/runs which to find executable in path. If not found, returns empty string
 function Which(const Executable: string): string;
 function IsExecutable(Executable: string):boolean;
+function DirectoryExistsSafe(Const Dir: RawByteString): Boolean;
 function ForceDirectoriesSafe(Const Dir: RawByteString): Boolean;
 function CheckExecutable(Executable:string;Parameters:array of string;ExpectOutput: string; beSilent:boolean=false): boolean;
 function GetJava: string;
@@ -752,19 +753,15 @@ function SafeGetApplicationPath: String;
 var
   StartPath: String;
 begin
-  {$ifdef Darwin}
   StartPath:=ExtractFileDir(SafeGetApplicationName);
-  {$else}
-  StartPath:=GetCurrentDir;
-  {$endif}
   if DirectoryExists(StartPath) then
   begin
     try
       StartPath:=GetPhysicalFilename(StartPath,pfeException);
     except
     end;
+    result:=IncludeTrailingPathDelimiter(StartPath);
   end;
-  result:=IncludeTrailingPathDelimiter(StartPath);
 end;
 
 function SafeGetApplicationConfigPath(Global:boolean=false): String;
@@ -4076,6 +4073,17 @@ begin
     result:=true;
     {$endif}
   end;
+end;
+
+function DirectoryExistsSafe(Const Dir: RawByteString): Boolean;
+var
+  aDir:RawByteString;
+begin
+  result:=false;
+  if (Length(Dir)=0) then exit;
+  aDir:=ExcludeTrailingPathDelimiter(Dir);
+  if (Length(aDir)=0) then exit;
+  result:=DirectoryExists(aDir);
 end;
 
 function ForceDirectoriesSafe(Const Dir: RawByteString): Boolean;

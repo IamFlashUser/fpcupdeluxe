@@ -4555,9 +4555,14 @@ begin
 end;
 
 constructor TInstaller.Create;
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(LCLQt5) OR DEFINED(LCLQt6) OR DEFINED(MSWINDOWS)}
 var
+{$IFDEF MSWINDOWS}
   i,j:integer;
+{$ENDIF}
+{$IF DEFINED(LCLQt5) OR DEFINED(LCLQt6)}
+  QTLibLocation:string;
+{$ENDIF}
 {$ENDIF}
 begin
   inherited Create;
@@ -4658,7 +4663,11 @@ begin
   FQTLibs:=LIBQT6;
   FQTLibsVersioned:=LIBQT6VERSION;
   {$endif}
-  FQTTrickeryNeeded:=(NOT LibWhich(FQTLibs));
+  FQTTrickeryNeeded:=(NOT LibWhich(FQTLibs,QTLibLocation));
+  if (NOT FQTTrickeryNeeded) then
+    Infoln('Fpcupdeluxe: Found systemwide QT libs ['+FQTLibs+'] at location: '+QTLibLocation,etInfo)
+  else
+    Infoln('Fpcupdeluxe: Some QT trickery needed due to missing system wide '+FQTLibs+' !',etInfo);
   {$ENDIF}
 
   SanityCheck;

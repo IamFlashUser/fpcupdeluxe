@@ -5144,6 +5144,7 @@ var
   i              : integer;
 begin
   result:=inherited;
+
   result:=InitModule;
 
   if (not result) then exit;

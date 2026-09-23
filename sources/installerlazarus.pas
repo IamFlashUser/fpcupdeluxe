@@ -96,8 +96,8 @@ const
     _DECLARE+_LAZARUS+_CHECK+_ONLY+_SEP + _CHECKMODULE+_LAZARUS+_SEP + _END +
     _DECLARE+_LAZARUS+_CLEAN+_ONLY+_SEP + _CLEANMODULE+_LAZARUS+_SEP + _END +
     _DECLARE+_LAZARUS+_GET+_ONLY+_SEP + _GETMODULE+_LAZARUS+_SEP + _END +
-    _DECLARE+_LAZARUS+_BUILD+_ONLY+_SEP + _BUILDMODULE+_LAZARUS+_SEP + _END +
     _DECLARE+_LAZARUS+_CONFIG+_ONLY+_SEP + _CONFIGMODULE+_LAZARUS+_SEP + _END +
+    _DECLARE+_LAZARUS+_BUILD+_ONLY+_SEP + _BUILDMODULE+_LAZARUS+_SEP + _END +
 
     _DECLARE+_LAZARUSCLEANBUILDONLY+_SEP +
     _CLEANMODULE+_LAZARUS+_SEP +
@@ -1974,6 +1974,11 @@ begin
           s2:=IncludeTrailingPathDelimiter(GDBPath)+QTLibsVersioned;
           if (NOT FileExists(s2)) then FileCopy(s,s2);
         end;
+
+        // We might do some more QT trickery here and not in GetModule !!
+
+
+
       end;
       {$ENDIF}
       {$ENDIF DARWIN}
@@ -2499,9 +2504,11 @@ var
   FPCConfig          : TStringList;
   QTConfig           : TStringList;
   SnipBegin,SnipEnd  : integer;
+  Success            : boolean;
   {$ENDIF}
 begin
   result:=inherited;
+
   result:=InitModule;
 
   if (not result) then exit;
@@ -2766,74 +2773,58 @@ begin
 
     if QTTrickeryNeeded then
     begin
-      {$ifdef Haiku}
-      {$ifdef CPUX86}
-      s:='/boot/system/non-packaged/lib/x86/';
-      {$else}
-      s:='/boot/system/non-packaged/lib/';
-      {$endif}
-      ForceDirectoriesSafe(s);
-      if FileExists(FilePath+QTLibsVersioned) then
-      begin
-        if (NOT FileExists(s+QTLibsVersioned)) then
-          FileCopy(FilePath+QTLibsVersioned,s+QTLibsVersioned);
-        if (NOT FileExists(s+QTLibs)) then
-          FileCopy(FilePath+QTLibsVersioned,s+QTLibs);
-      end;
-      {$endif}
+      Infoln(infotext+'Looking for ['+FilePath+QTLibs+'].',etInfo);
 
-      {$ifdef Unix}
-      s:='/usr/local/lib/';
-      if DirectoryExists(s) then
+      if FileExists(FilePath+QTLibs) then
       begin
-        if FileExists(FilePath+QTLibsVersioned) then
+        Infoln(infotext+'Local '+QTLibs+' found. Performing some trickery.',etInfo);
+
+        // First, try to copy the libs provided by fpcupdeluxe itself into a system wide library directory.
+        // Will fail in most cases due to lacking write permission in system directories
+        s:='';
+        {$ifdef Unix}
+        s:='/usr/local/lib/';
+        {$endif}
+        {$ifdef Haiku}
+        s:='/boot/system/non-packaged/lib/';
+        {$ifdef CPUX86}
+        s:=s+'x86/';
+        {$endif}
+        {$endif}
+
+        Success:=true;
+        if DirectoryExistsSafe(s) then
         begin
           try
-            if (NOT FileExists(s+QTLibsVersioned)) then
-              FileCopy(FilePath+QTLibsVersioned,s+QTLibsVersioned);
-            if (NOT FileExists(s+QTLibs)) then
-              FileCopy(FilePath+QTLibsVersioned,s+QTLibs);
-            // User [might] need to run ldconfig as superuser to update the ld cache
+            Success:=FileExists(s+QTLibsVersioned);
+            if (NOT Success) then
+              Success:=FileCopy(FilePath+QTLibs,s+QTLibsVersioned);
+            Success:=FileExists(s+QTLibs);
+            if (NOT Success) then
+              Success:=FileCopy(FilePath+QTLibs,s+QTLibs);
+            // On UNIX, user [might] need to run ldconfig as superuser to update the ld cache
           except
+            Success:=false;
             // The above might/will fail due to permission issues.
             // Just swallow exception
           end;
         end;
-      end;
-      {$endif}
 
-      {$ifdef LCLQT5}
-      s:='.1.2.13';
-      if (NOT FileExists(FilePath+QTLibs+s)) then s:='.1.2.9';
-      if (NOT FileExists(FilePath+QTLibs+s)) then s:='.1.2.8';
-      if (NOT FileExists(FilePath+QTLibs+s)) then s:='.1.2.7';
-      if (NOT FileExists(FilePath+QTLibs+s)) then s:='.1.2.6';
-      if FileExists(FilePath+QTLibs+s) then
-      begin
-        if (NOT FileExists(IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs+s)) then
-          FileCopy(FilePath+QTLibs+s,IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs+s);
-        if (NOT FileExists(IncludeTrailingPathDelimiter(InstallDirectory)+QTLibsVersioned)) then
-          FileCopy(FilePath+QTLibs+s,IncludeTrailingPathDelimiter(InstallDirectory)+QTLibsVersioned);
-        if (NOT FileExists(IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs)) then
-          FileCopy(FilePath+QTLibs+s,IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs);
-      end;
-      {$endif}
+        // Next [simple] step in QT trickery
+        // Just copy the QT libs into the Lazarus install directory
 
-      //The below can be trivial, but just in case
-      if FileExists(FilePath+QTLibsVersioned) then
-      begin
-        if (NOT FileExists(IncludeTrailingPathDelimiter(InstallDirectory)+QTLibsVersioned)) then
-          FileCopy(FilePath+QTLibsVersioned,IncludeTrailingPathDelimiter(InstallDirectory)+QTLibsVersioned);
-        if (NOT FileExists(IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs)) then
-          FileCopy(FilePath+QTLibsVersioned,IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs);
+        s:=IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs;
+        Success:=FileExists(s);
+        if (NOT Success) then
+          Success:=FileCopy(FilePath+QTLibs,s);
+
+        s:=IncludeTrailingPathDelimiter(InstallDirectory)+QTLibsVersioned;
+        Success:=FileExists(s);
+        if (NOT Success) then
+          Success:=FileCopy(FilePath+QTLibs,s);
+
       end;
-      if FileExists(FilePath+QTLibs) then
-      begin
-        if (NOT FileExists(IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs)) then
-          FileCopy(FilePath+QTLibs,IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs);
-        if (NOT FileExists(IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs)) then
-          FileCopy(FilePath+QTLibs,IncludeTrailingPathDelimiter(InstallDirectory)+QTLibs);
-      end;
+
     end;
     {$endif LCLQT}
     {$endif Darwin}
@@ -2895,9 +2886,13 @@ begin
           if LibWhich(QTLibs,s) then
             QTConfig.Append('-Fl'+ExcludeTrailingPathDelimiter(s));
         {$ifndef Darwin}
+        {$ifdef Haiku}
+        QTConfig.Append('-k"-rpath=%A"');
+        {$else}
         //For any runtime
         QTConfig.Append('-k-rpath');
         QTConfig.Append('-k$ORIGIN');
+        {$endif}
         {$endif Darwin}
         {$endif Unix}
         QTConfig.Append('#ENDIF');
